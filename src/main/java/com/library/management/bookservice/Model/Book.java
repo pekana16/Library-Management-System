@@ -15,7 +15,7 @@ public class Book {
     @Id
     @GeneratedValue
     private Long bookId;
-    private Long title;
-    private Long author;
+    private String title;
+    private String author;
 
 }
