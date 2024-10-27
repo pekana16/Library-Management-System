@@ -34,9 +34,9 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    /* getting a specific book from the database with unique Id
-     -> we use Optional here because we are fetching an Id which is
-     supposed to be unique: either we get the Id/book or not
+    /* getting a specific book from the database with unique id
+     -> we use Optional here because we are fetching an id which is
+     supposed to be unique: either we get the d/book or not
      */
     public Optional<Book> findingBookById(Long id) {
         return bookRepository.findById(id);
@@ -52,7 +52,7 @@ public class BookService {
         return bookRepository.findByTitle(title);
     }
 
-    // a certain book is found by Id - which then gets deleted
+    // a certain book is found by id - which then gets deleted
     public void deleteBookById(Long id) {
         bookRepository.deleteById(id);
     }
