@@ -52,6 +52,34 @@ public class BookService {
         return bookRepository.findByTitle(title);
     }
 
+    /* the user gets to mark a certain book as "borrowed" thanks to
+        its book-id
+     */
+    public Optional<Book> markAsBorrowed(Long id) {
+        Optional<Book> foundBook = bookRepository.findById(id);
+
+        /* checking to see if the chosen book-id by user matches the
+           one inside the database. If it's found, it is retrieved
+         */
+        if (foundBook.isPresent()) {
+            Book book = foundBook.get();
+            /* the book must not already be set to borrowed in order
+                for our logic to work
+             */
+            if (!book.isBorrowed()) {
+                book.setBorrowed(true);
+                bookRepository.save(book);
+            }
+            // saving the newly updated book inside the database
+            return Optional.of(book);
+        } else {
+            /* in case the book-id was not found in the first place,
+                simply nothing gets returned
+             */
+            return Optional.empty();
+        }
+    }
+
     // a certain book is found by id - which then gets deleted
     public void deleteBookById(Long id) {
         bookRepository.deleteById(id);
