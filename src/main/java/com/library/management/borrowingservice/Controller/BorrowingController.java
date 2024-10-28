@@ -22,16 +22,9 @@ public class BorrowingController {
         this.borrowingService = borrowingService;
     }
 
-    /* Handling POST requests so that the book is set to be borrowed
-       when the user chooses its id
-      -> if the wrong book-id is given, 404 error is shown
-    */
     @PostMapping("/{id}")
     public ResponseEntity<Book> markAsBorrowed(@PathVariable Long id) {
-        Optional<Book> bookBorrowed = borrowingService.borrowBook(id);
-        return bookBorrowed
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return borrowingService.borrowBook(id);
     }
 
 }

@@ -2,15 +2,19 @@ package com.library.management.bookservice.Controller;
 
 import com.library.management.bookservice.Model.Book;
 import com.library.management.bookservice.Service.BookService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
 @RequestMapping("/books")
 public class BookController {
+
+    @Autowired
     private final BookService bookService;
 
     // creating a constructor
@@ -22,6 +26,18 @@ public class BookController {
     @PostMapping
     public Book addBook(@RequestBody Book book) {
         return bookService.addingBook(book);
+    }
+
+    /* Handling POST requests so that the book is set to be borrowed
+       when the user chooses its id
+      -> if the wrong book-id is given, 404 error is shown
+    */
+    @PostMapping("/{id}")
+    public ResponseEntity<Book> markAsBorrowed(@PathVariable Long id) {
+        Optional<Book> bookBorrowed = bookService.markAsBorrowed(id);
+        return bookBorrowed
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // handling GET requests so that all books are shown
